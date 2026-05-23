@@ -9,6 +9,8 @@ mod docker;
 
 #[tokio::main]
 async fn main() {
+    dotenvy::dotenv().ok();
+
     // Parse the CLI input
     let args = Cli::parse();
     let docker_client = DockerClient::new();

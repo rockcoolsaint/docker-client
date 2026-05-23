@@ -1,3 +1,5 @@
+use std::env;
+
 use bollard::{Docker, errors::Error, models::{ContainerSummary, ImageSummary}, query_parameters::{CreateImageOptionsBuilder, ListContainersOptionsBuilder, ListImagesOptionsBuilder, StartContainerOptionsBuilder, StopContainerOptionsBuilder}};
 use futures_util::TryStreamExt;
 
@@ -7,7 +9,7 @@ pub struct DockerClient {
 
 impl DockerClient {
     pub fn new() -> Self {
-        let docker = Docker::connect_with_unix("unix:///home/innocent/.docker/desktop/docker.sock",
+        let docker = Docker::connect_with_unix(&env::var("UNIX_SOCKET_PATH").unwrap_or_default(),
         120, //Timeout in seconds
         bollard::API_DEFAULT_VERSION
         ).expect("Failed to connect to Docker");
